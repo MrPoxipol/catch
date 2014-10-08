@@ -13,6 +13,24 @@ function Color(r, g, b) {
 const DEFAULT_SIZE = new PIXI.Point(486, 864);
 const HUD = new PIXI.Rectangle(0, 0, 486, 30);
 
+var mapPlace = new PIXI.Rectangle(
+	0, HUD.height,
+	DEFAULT_SIZE.x, DEFAULT_SIZE.y - HUD.height
+);
+/// mapSize: default map size (tiles x tiles)
+var mapSize = new PIXI.Point(6, 6);
+var tileSize = new PIXI.Point(
+	Math.round(mapPlace.width/mapSize.x),
+	Math.round(mapPlace.height/mapSize.y)
+);
+
+// Print some debug
+console.log('mapPlace: %d,%d %dx%d',
+			mapPlace.x, mapPlace.y,
+			mapPlace.width, mapPlace.height
+		   );
+console.log('tileSize: %dx%d', tileSize.x, tileSize.y);
+
 /* Singleton class, contains all avaiable colors for tiles,
  * and method to randomize selection
 */
@@ -25,34 +43,42 @@ var T_COLORS = {
 		new Color(211, 84, 0),
 		new Color(231, 76, 60),
 		new Color(149, 165, 166)
-	],
-	
-	randomize: function(game) {
-		if (!game) throw "game object is undefined";
-		
-		var colorIndex = game.rnd.between(0, this.colors.length-1);
-		
-		return this.colors[colorIndex];
-	}
+	]
 };
 
-var mapPlace = new PIXI.Rectangle(
-	0, HUD.height,
-	DEFAULT_SIZE.x, DEFAULT_SIZE.y - HUD.height
-);
-/// mapSize: default map size (tiles x tiles)
-var mapSize = new PIXI.Point(4, 4);
-var tileSize = new PIXI.Point(
-	Math.round(mapPlace.width/mapSize.x),
-	Math.round(mapPlace.height/mapSize.y)
-);
+T_COLORS._isDiffrent = function(tilePos, color, tilemap) {
+	if (!tilePos) 	tilePos = new PIXI.Point(0, 0);
+	if (!color)		color	= this.colors[0];
+	if (!tilemap || tilemap.length < 1)	throw "tilemap is undefined or empty";
+	
+	var left, top;
+	if (tilePos.x-1 >= 0)
+		left 	= tilemap[tilePos.y][tilePos.x-1];
+	if (tilePos.y-1 >= 0)
+		top		= tilemap[tilePos.y-1][tilePos.x];
+	
+	if (left) {
+		if (left.color == color) return false;
+	}
+	if (top) {
+		if (top.color == color) return false;
+	}
 
-// Print some debug
-console.log('mapPlace: %d,%d %dx%d',
-	mapPlace.x, mapPlace.y,
-	mapPlace.width, mapPlace.height
-);
-console.log('tileSize: %dx%d', tileSize.x, tileSize.y);
+	return true;	
+}
+
+T_COLORS.randomize = function(game, tilePos, tilemap) {
+	if (!game) throw "game object is undefined";
+	if (!tilemap) throw "tilemap object is undefined";
+
+	var colorIndex = game.rnd.between(0, this.colors.length-1);
+	// Check that these adjacent tiles aren't in the same color
+	while(!this._isDiffrent(tilePos, this.colors[colorIndex], tilemap)) {
+		colorIndex = game.rnd.between(0, this.colors.length-1);
+	}
+
+	return this.colors[colorIndex];
+}
 
 var game = new Phaser.Game(DEFAULT_SIZE.x,
     DEFAULT_SIZE.y,
@@ -85,21 +111,25 @@ game.tileToXY = function(pos, tileSize) {
 	@param[i] pos   Tile position on tile map
 	@param[i] color A color, which the tile will be filled with
 */
-function Tile(game, pos, color) {
+function Tile(game, pos) {
 	if (!pos) pos = PIXI.Point(0, 0);
-	if (!color) color = new Color(0, 0, 0);
 	
 	this.x = pos.x; this.y = pos.y;
 	
 	this.realPos = game.tileToXY(pos, tileSize);
+
+	this.color;
 	this.bitmapData = game.make.bitmapData(tileSize.x, tileSize.y);
-	//this.bitmapData = new Phaser.BitmapData(game, '', this.realPos.x, this.realPos.y);
-	this.bitmapData.fill(color.r, color.g, color.b, color.a);
-	
+
 	this.sprite = game.add.sprite(
 		this.realPos.x, this.realPos.y,
 		this.bitmapData.texture
 	);
+	
+	this.setColor = function(color) {
+		this.color = color;
+		this.bitmapData.fill(color.r, color.g, color.b, color.a);
+	}
 }
 
 function initTilemap() {
@@ -109,12 +139,21 @@ function initTilemap() {
         for (var x = 0; x < mapSize.x; ++x) {
             newRow.push(new Tile(
 				game,
-				new PIXI.Point(x, y),
-				T_COLORS.randomize(game)
+				new PIXI.Point(x, y)
 			));
         }
 		tilemap.push(newRow);
     }
+	
+	// colorize tiles
+	for (var y = 0; y < mapSize.y; ++y)
+		for (var x = 0; x < mapSize.x; ++x) {
+			tilemap[y][x].setColor(T_COLORS.randomize(
+				game,
+				new PIXI.Point(x, y),
+				tilemap
+			));
+		}
 }
 
 function logic() {
