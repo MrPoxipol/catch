@@ -11,14 +11,14 @@ function Color(r, g, b) {
 }
 
 const DEFAULT_SIZE = new PIXI.Point(486, 864);
-const HUD = new PIXI.Rectangle(0, 0, 486, 30);
+const HUD = new PIXI.Rectangle(0, 0, 486, 40);
 
 var mapPlace = new PIXI.Rectangle(
 	0, HUD.height,
 	DEFAULT_SIZE.x, DEFAULT_SIZE.y - HUD.height
 );
 /// mapSize: default map size (tiles x tiles)
-var mapSize = new PIXI.Point(6, 6);
+var mapSize = new PIXI.Point(5, 9);
 var tileSize = new PIXI.Point(
 	Math.round(mapPlace.width/mapSize.x),
 	Math.round(mapPlace.height/mapSize.y)
