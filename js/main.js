@@ -1,7 +1,41 @@
 /*jslint maxlen: 80, plusplus: true */
 
+/** 
+	@brief Just a color data struct (carrier)
+	@param[i] r, g, b RGB color system components
+*/
+function Color(r, g, b) {
+	this.r = r;
+	this.g = g;
+	this.b = b;
+}
+
 const DEFAULT_SIZE = new PIXI.Point(486, 864);
-const HUD = new PIXI.Rectangle(0, 0, 486, 20);
+const HUD = new PIXI.Rectangle(0, 0, 486, 30);
+
+/* Singleton class, contains all avaiable colors for tiles,
+ * and method to randomize selection
+*/
+var T_COLORS = {
+	colors: [
+		new Color(52, 73, 94),
+		new Color(155, 89, 182),
+		new Color(26, 188, 156),
+		new Color(41, 128, 185),
+		new Color(211, 84, 0),
+		new Color(231, 76, 60),
+		new Color(149, 165, 166)
+	],
+	
+	randomize: function(game) {
+		if (!game) throw "game object is undefined";
+		
+		var colorIndex = game.rnd.between(0, this.colors.length-1);
+		
+		return this.colors[colorIndex];
+	}
+};
+
 var mapPlace = new PIXI.Rectangle(
 	0, HUD.height,
 	DEFAULT_SIZE.x, DEFAULT_SIZE.y - HUD.height
@@ -9,8 +43,8 @@ var mapPlace = new PIXI.Rectangle(
 /// mapSize: default map size (tiles x tiles)
 var mapSize = new PIXI.Point(4, 4);
 var tileSize = new PIXI.Point(
-	Math.floor(mapPlace.width/mapSize.x),
-	Math.floor(mapPlace.height/mapSize.y)
+	Math.round(mapPlace.width/mapSize.x),
+	Math.round(mapPlace.height/mapSize.y)
 );
 
 // Print some debug
@@ -31,17 +65,6 @@ var game = new Phaser.Game(DEFAULT_SIZE.x,
 );
 
 var tilemap;
-
-/** 
-	@brief Just a color data struct (carrier)
-	@param[i] r, g, b RGB color system components
-*/
-function Color(r, g, b) {
-	this.r = r;
-	this.g = g;
-	this.b = b;
-}
-
 /** 
 	@brief Converts tile coords to mapPlace pixels
 	@param[i] pos
@@ -87,7 +110,7 @@ function initTilemap() {
             newRow.push(new Tile(
 				game,
 				new PIXI.Point(x, y),
-				new Color(52, 73, 94)
+				T_COLORS.randomize(game)
 			));
         }
 		tilemap.push(newRow);
