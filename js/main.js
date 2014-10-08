@@ -24,7 +24,6 @@ var game = new Phaser.Game(DEFAULT_SIZE.x,
     DEFAULT_SIZE.y,
     Phaser.AUTO,
     'game', {
-        preload: preload,
         create: create,
         update: update,
         render: render
