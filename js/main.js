@@ -31,8 +31,6 @@ var game = new Phaser.Game(DEFAULT_SIZE.x,
     }
 );
 
-var keyboard;
-
 var tilemap;
 
 /** 
@@ -103,8 +101,6 @@ function logic() {
 
 function create() {
 	game.stage.backgroundColor = '#f1c40f';
-    // Init controls
-    keyboard = game.input.keyboard;
 
     initTilemap();
 }
