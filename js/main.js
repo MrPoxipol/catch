@@ -101,14 +101,6 @@ function logic() {
     // NOTHING HERE YET! @TODO
 }
 
-function preload() {
-    // PRELOAD PLACEHOLDERS @TODO
-	/*
-	game.load.image('tank', 'assets/tank.png');
-    game.load.image('tile', 'assets/tile.png');
-	*/
-}
-
 function create() {
 	game.stage.backgroundColor = '#f1c40f';
     // Init controls
