@@ -20,8 +20,8 @@ var mapPlace = new PIXI.Rectangle(
 /// mapSize: default map size (tiles x tiles)
 var mapSize = new PIXI.Point(5, 9);
 var tileSize = new PIXI.Point(
-	Math.round(mapPlace.width/mapSize.x),
-	Math.round(mapPlace.height/mapSize.y)
+	Math.ceil(mapPlace.width/mapSize.x),
+	Math.ceil(mapPlace.height/mapSize.y)
 );
 
 // Print some debug
