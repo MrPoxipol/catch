@@ -50,7 +50,7 @@ function Color(r, g, b) {
 	@param[i] pos
 	@return Returns x, y coords in pixels
 */
-game.tileToXY = function(pos) {
+game.tileToXY = function(pos, tileSize) {
 	var res = {
 		x: pos.x*tileSize.x,
 		y: mapPlace.y + pos.y*tileSize.y
@@ -71,16 +71,14 @@ function Tile(game, pos, color) {
 	
 	this.x = pos.x; this.y = pos.y;
 	
-	bitmapData = game.make.bitmapData(tileSize.x, tileSize.y);
-	bitmapData.fill(color.r, color.g, color.b, color.a);
-	/*bitmapData.rect(	
-		x*tileSize.x, y*tileSize.y,
-		tileSize.x, tileSize.y
-	);*/
+	this.realPos = game.tileToXY(pos, tileSize);
+	this.bitmapData = game.make.bitmapData(tileSize.x, tileSize.y);
+	//this.bitmapData = new Phaser.BitmapData(game, '', this.realPos.x, this.realPos.y);
+	this.bitmapData.fill(color.r, color.g, color.b, color.a);
 	
 	this.sprite = game.add.sprite(
-		x*tileSize.x, y*tileSize.y,
-		tileSize.x, tileSize.y
+		this.realPos.x, this.realPos.y,
+		this.bitmapData.texture
 	);
 }
 
