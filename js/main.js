@@ -1,14 +1,14 @@
 /*jslint maxlen: 80, plusplus: true */
 
 const DEFAULT_SIZE = new PIXI.Point(486, 864);
-const HUD = new PIXI.Rectangle(0, 0, 486, 40);
+const HUD = new PIXI.Rectangle(0, 0, 486, 50);
 
 var mapPlace = new PIXI.Rectangle(
 	0, HUD.height,
 	DEFAULT_SIZE.x, DEFAULT_SIZE.y - HUD.height
 );
 /// mapSize: default map size (tiles x tiles)
-var mapSize = new PIXI.Point(5, 9);
+var mapSize = new PIXI.Point(4, 7);
 
 var game = new Phaser.Game(DEFAULT_SIZE.x,
     DEFAULT_SIZE.y,
@@ -25,7 +25,8 @@ function logic() {
 }
 
 function create() {
-	game.stage.backgroundColor = '#f1c40f';
+	// temporary! @todo
+	game.stage.backgroundColor = '#34495e';
 
     initTilemap(mapPlace, mapSize);
 }

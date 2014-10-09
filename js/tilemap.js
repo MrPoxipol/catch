@@ -3,10 +3,10 @@
 */
 var T_COLORS = {
 	colors: [
-		new Color(255, 0, 0),
+		new Color(242, 38, 19),
 		new Color(34, 167, 240),
 		new Color(246, 36, 89),
-		new Color(102, 51, 153),
+		new Color(145, 61, 136),
 		new Color(46, 204, 113),
 		new Color(247, 202, 24),
 		new Color(249, 105, 14),
@@ -57,12 +57,12 @@ var tileSize;
 	@param[i] pos   Tile position on tile map
 	@param[i] color A color, which the tile will be filled with
 */
-function Tile(game, pos) {
+function Tile(game, pos, mapPlace) {
 	if (!pos) pos = PIXI.Point(0, 0);
 
 	this.x = pos.x; this.y = pos.y;
 
-	this.realPos = tileToXY(pos, tileSize);
+	this.realPos = tileToXY(pos, mapPlace, tileSize);
 
 	this.color;
 	this.bitmapData = game.make.bitmapData(tileSize.x, tileSize.y);
@@ -74,7 +74,7 @@ function Tile(game, pos) {
 
 	this.setColor = function(color) {
 		this.color = color;
-		this.bitmapData.fill(color.r, color.g, color.b, color.a);
+		this.bitmapData.fill(color.r, color.g, color.b);
 	}
 }
 
@@ -83,7 +83,7 @@ function Tile(game, pos) {
 	@param[i] pos
 	@return Returns x, y coords in pixels
 */
-function tileToXY(pos, tileSize) {
+function tileToXY(pos, mapPlace, tileSize) {
 	var res = {
 		x: pos.x*tileSize.x,
 		y: mapPlace.y + pos.y*tileSize.y
@@ -104,7 +104,8 @@ function initTilemap(mapPlace, mapSize) {
 		for (var x = 0; x < mapSize.x; ++x) {
 			newRow.push(new Tile(
 				game,
-				new PIXI.Point(x, y)
+				new PIXI.Point(x, y),
+				mapPlace
 			));
 		}
 		tilemap.push(newRow);
