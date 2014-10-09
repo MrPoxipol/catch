@@ -3,12 +3,13 @@
 */
 var T_COLORS = {
 	colors: [
-		new Color(52, 73, 94),
-		new Color(155, 89, 182),
-		new Color(26, 188, 156),
-		new Color(41, 128, 185),
-		new Color(211, 84, 0),
-		new Color(231, 76, 60),
+		new Color(255, 0, 0),
+		new Color(34, 167, 240),
+		new Color(246, 36, 89),
+		new Color(102, 51, 153),
+		new Color(46, 204, 113),
+		new Color(247, 202, 24),
+		new Color(249, 105, 14),
 		new Color(149, 165, 166)
 	]
 };
