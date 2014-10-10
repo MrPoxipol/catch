@@ -3,14 +3,14 @@
 */
 var T_COLORS = {
 	colors: [
-		new Color(242, 38, 19),
-		new Color(34, 167, 240),
-		new Color(246, 36, 89),
-		new Color(145, 61, 136),
-		new Color(46, 204, 113),
-		new Color(247, 202, 24),
-		new Color(249, 105, 14),
-		new Color(149, 165, 166)
+		new TileColor(new rgb(242, 38, 19), "red"),
+		new TileColor(new rgb(34, 167, 240), "blue"),
+		new TileColor(new rgb(246, 36, 89), "light red"),
+		new TileColor(new rgb(145, 61, 136), "purple"),
+		new TileColor(new rgb(46, 204, 113), "light green"),
+		new TileColor(new rgb(247, 202, 24), "light orange"),
+		new TileColor(new rgb(249, 105, 14), "orange"),
+		new TileColor(new rgb(149, 165, 166), "gray")
 	]
 };
 
