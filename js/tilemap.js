@@ -33,7 +33,7 @@ T_COLORS._isDiffrent = function(tilePos, color, tilemap) {
 	}
 
 	return true;	
-}
+};
 
 T_COLORS.randomize = function(game, tilePos, tilemap) {
 	if (!game) throw "game object is undefined";
@@ -46,7 +46,7 @@ T_COLORS.randomize = function(game, tilePos, tilemap) {
 	}
 
 	return this.colors[colorIndex];
-}
+};
 
 var tilemap;
 var tileSize;
@@ -64,7 +64,7 @@ function Tile(game, pos, mapPlace) {
 
 	this.realPos = tileToXY(pos, mapPlace, tileSize);
 
-	this.color;
+	this.color = undefined;
 	this.bitmapData = game.make.bitmapData(tileSize.x, tileSize.y);
 
 	this.sprite = game.add.sprite(
@@ -72,10 +72,22 @@ function Tile(game, pos, mapPlace) {
 		this.bitmapData.texture
 	);
 
+	// Configure events
+	this.onInputOver = function(e) {
+		this.sprite.alpha = 0.5;
+	};
+	this.onInputOut	= function(e) {
+		this.sprite.alpha = 1;
+	};
+
+	this.sprite.inputEnabled = true;
+	this.sprite.events.onInputOver.add(this.onInputOver, this);
+	this.sprite.events.onInputOut.add(this.onInputOut, this);
+
 	this.setColor = function(color) {
 		this.color = color;
 		this.bitmapData.fill(color.r, color.g, color.b);
-	}
+	};
 }
 
 /** 
@@ -90,7 +102,7 @@ function tileToXY(pos, mapPlace, tileSize) {
 	};
 
 	return res;
-};
+}
 
 function initTilemap(mapPlace, mapSize) {
 	tileSize = new PIXI.Point(
