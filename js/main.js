@@ -29,7 +29,7 @@ function create() {
 	// temporary! @todo
 	game.stage.backgroundColor = '#34495e';
 	// add hud text ('red' is a placeholder at the moment)
-	hudText = game.add.text(0, 5, 'RED', {
+	hudText = game.add.text(0, 6, 'RED', {
 		font: "35px 'oswald-regular'", fill: "#fff"
 	});
 	hudText.x = (HUD.width/2) - (hudText.width/2);
