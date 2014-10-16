@@ -18,6 +18,10 @@ var game = new Phaser.Game(DEFAULT_SIZE.x,
     }
 );
 
+/// Contains states, etc.
+var gameData = {};
+gameData.targetColor = T_COLORS.random(game); // Just set by default for sure
+
 function logic() {
     // NOTHING HERE YET! @TODO
 }
@@ -34,6 +38,20 @@ function update() {
     logic();
 }
 
+/**
+	@brief Randomizes the target color and sets the text on HUD
+*/
+function randomizeTarget() {
+	var color = T_COLORS.random(game);
+
+	while (color == gameData.targetColor) {
+		color = T_COLORS.random(game);
+	}
+}
+
 function prepareLevel() {
+	randomizeTarget();
+	// Set the HUD text
+	hud.setText(gameData.targetColor.name.toUpperCase());
 	initTilemap(mapPlace, mapSize);
 }

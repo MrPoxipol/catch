@@ -26,10 +26,10 @@ T_COLORS._isDiffrent = function(tilePos, color, tilemap) {
 		top		= tilemap[tilePos.y-1][tilePos.x];
 
 	if (left) {
-		if (left.color == color) return false;
+		if (left.color === color) return false;
 	}
 	if (top) {
-		if (top.color == color) return false;
+		if (top.color === color) return false;
 	}
 
 	return true;	
@@ -39,14 +39,25 @@ T_COLORS.randomize = function(game, tilePos, tilemap) {
 	if (!game) throw "game object is undefined";
 	if (!tilemap) throw "tilemap object is undefined";
 
-	var colorIndex = game.rnd.between(0, this.colors.length-1);
+	var color = this.random(game);
 	// Check that these adjacent tiles aren't in the same color
-	while(!this._isDiffrent(tilePos, this.colors[colorIndex], tilemap)) {
-		colorIndex = game.rnd.between(0, this.colors.length-1);
+	while (!this._isDiffrent(tilePos, color, tilemap)) {
+		color = this.random(game);
 	}
 
-	return this.colors[colorIndex];
+	return color;
 };
+
+/**
+	@brief Returns a random color from T_COLORS.colors array
+	@returns A rgb object
+*/
+T_COLORS.random = function(game) {
+	if (!game) throw "game object is undefined";
+	var colorIndex = game.rnd.between(0, this.colors.length-1);
+
+	return this.colors[colorIndex];
+}
 
 var tilemap;
 var tileSize;

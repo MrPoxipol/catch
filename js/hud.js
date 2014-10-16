@@ -11,9 +11,10 @@ hud.create = function(game) {
 	if (!game) throw('hud#create: The game object is undefined');
 
 	// add hud text ('red' is a placeholder at the moment)
-	this.text = game.add.text(0, 6, 'RED', {
+	this.text = game.add.text(0, 6, 'NONE', {
 		font: "35px 'oswald-regular'", fill: "#fff"
 	});
+	// Center the text
 	this.text.x = (this.area.width/2) - (this.text.width/2);
 };
 
@@ -23,4 +24,5 @@ hud.create = function(game) {
 */
 hud.setText = function(text) {
 	this.text.setText((text ? text : ''));
+	this.text.x = (this.area.width/2) - (this.text.width/2);
 };
