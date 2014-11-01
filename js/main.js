@@ -56,6 +56,12 @@ function randomizeTarget() {
 		color = T_COLORS.random(game);
 	}
 
+	if (tilemap)
+		while (!T_COLORS.colorInTilemap(color, tilemap)) {
+			color = T_COLORS.random(game);
+		}
+
+
 	gameData.targetColor = color;
 }
 

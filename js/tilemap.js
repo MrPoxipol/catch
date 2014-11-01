@@ -35,6 +35,19 @@ T_COLORS._isDiffrent = function(tilePos, color, tilemap) {
 	return true;	
 };
 
+/**
+	@brief Indicates if the tilemap contains a specified color
+*/
+T_COLORS.colorInTilemap = function(color, tilemap) {
+	for (var y = 0; y < tilemap.length; ++y)
+		for (var x = 0; x < tilemap[y].length; ++x) {
+			if (tilemap[y][x].color === color)
+				return true;
+		}
+
+	return true;
+};
+
 T_COLORS.randomize = function(game, tilePos, tilemap) {
 	if (!game) throw "game object is undefined";
 	if (!tilemap) throw "tilemap object is undefined";
