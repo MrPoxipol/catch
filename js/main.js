@@ -10,12 +10,12 @@ var mapPlace = new PIXI.Rectangle(
 var mapSize = new PIXI.Point(4, 7);
 
 var game = new Phaser.Game(DEFAULT_SIZE.x,
-    DEFAULT_SIZE.y,
-    Phaser.AUTO,
-    'game', {
-        create: create,
-        update: update
-    }
+	DEFAULT_SIZE.y,
+	Phaser.AUTO,
+	'game', {
+		create: create,
+		update: update
+	}
 );
 
 /// Contains states, etc.
@@ -23,7 +23,7 @@ var gameData = {};
 gameData.targetColor = T_COLORS.random(game); // Just set by default for sure
 
 function logic() {
-    // NOTHING HERE YET! @TODO
+	// NOTHING HERE YET! @TODO
 }
 
 function create() {
@@ -31,15 +31,16 @@ function create() {
 	game.stage.backgroundColor = '#34495e';
 	hud.create(game);
 
-    prepareLevel();
+	prepareLevel();
 }
 
 function update() {
-    logic();
+	logic();
 }
 
 function prepareLevel() {
 	randomizeTarget();
+
 	// Set the HUD text
 	hud.setText(gameData.targetColor.name.toUpperCase());
 	initTilemap(mapPlace, mapSize, tileClicked);
@@ -54,6 +55,8 @@ function randomizeTarget() {
 	while (color == gameData.targetColor) {
 		color = T_COLORS.random(game);
 	}
+
+	gameData.targetColor = color;
 }
 
 /**
@@ -61,6 +64,6 @@ function randomizeTarget() {
 */
 function tileClicked(color) {
 	if (gameData.targetColor == color) {
-		alert('//TODO');
+		prepareLevel();
 	}
 }
