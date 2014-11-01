@@ -38,6 +38,13 @@ function update() {
     logic();
 }
 
+function prepareLevel() {
+	randomizeTarget();
+	// Set the HUD text
+	hud.setText(gameData.targetColor.name.toUpperCase());
+	initTilemap(mapPlace, mapSize, tileClicked);
+}
+
 /**
 	@brief Randomizes the target color and sets the text on HUD
 */
@@ -49,9 +56,11 @@ function randomizeTarget() {
 	}
 }
 
-function prepareLevel() {
-	randomizeTarget();
-	// Set the HUD text
-	hud.setText(gameData.targetColor.name.toUpperCase());
-	initTilemap(mapPlace, mapSize);
+/**
+	@brief A callback function. Called when any tile on tilemap's been clicked
+*/
+function tileClicked(color) {
+	if (gameData.targetColor == color) {
+		alert('//TODO');
+	}
 }

@@ -68,7 +68,7 @@ var tileSize;
 	@param[i] pos   Tile position on tile map
 	@param[i] color A color, which the tile will be filled with
 */
-function Tile(game, pos, mapPlace) {
+function Tile(game, pos, mapPlace, clickCallback) {
 	if (!pos) pos = PIXI.Point(0, 0);
 
 	this.x = pos.x; this.y = pos.y;
@@ -83,17 +83,25 @@ function Tile(game, pos, mapPlace) {
 		this.bitmapData.texture
 	);
 
+	// Event handlers
+	this.onClick = function (){};
+	if (clickCallback) this.onClick = clickCallback;
+
 	// Configure events
-	this.onInputOver = function(e) {
-		this.sprite.alpha = 0.5;
+	this.onInputOver = function(sprite, pointer) {
+		sprite.alpha = 0.5;
 	};
-	this.onInputOut	= function(e) {
-		this.sprite.alpha = 1;
+	this.onInputOut	= function(sprite, pointer) {
+		sprite.alpha = 1;
+	};
+	this.onInputDown = function(sprite, pointer) {
+		this.onClick(this.color);
 	};
 
 	this.sprite.inputEnabled = true;
 	this.sprite.events.onInputOver.add(this.onInputOver, this);
 	this.sprite.events.onInputOut.add(this.onInputOut, this);
+	this.sprite.events.onInputDown.add(this.onInputDown, this);
 
 	this.setColor = function(color) {
 		this.color = color;
@@ -115,7 +123,7 @@ function tileToXY(pos, mapPlace, tileSize) {
 	return res;
 }
 
-function initTilemap(mapPlace, mapSize) {
+function initTilemap(mapPlace, mapSize, tileClickedCallback) {
 	tileSize = new PIXI.Point(
 		Math.ceil(mapPlace.width/mapSize.x),
 		Math.ceil(mapPlace.height/mapSize.y)
@@ -128,7 +136,8 @@ function initTilemap(mapPlace, mapSize) {
 			newRow.push(new Tile(
 				game,
 				new PIXI.Point(x, y),
-				mapPlace
+				mapPlace,
+				tileClickedCallback
 			));
 		}
 		tilemap.push(newRow);
