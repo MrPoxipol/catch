@@ -1,14 +1,14 @@
 {
-  "name": "FNT",
+  "name": "The Catch Game",
   "version": "0.0.1",
-  "description": "azbest.ga site",
-  "main": "index.js",
+  "description": "Game about clicking colorful tiles",
+  "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "azbest",
-    "fun"
+    "games",
+    "puzzle"
   ],
   "author": "mrpoxipol",
   "license": "GPLv3",
@@ -17,6 +17,5 @@
     "grunt": "^0.4.5",
     "grunt-contrib-uglify": "^0.5.1",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-contrib-less": "^0.11.4"
   }
 }
