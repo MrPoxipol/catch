@@ -38,6 +38,9 @@ function update() {
 	logic();
 }
 
+/**
+ * @brief Starts next level preparations
+ */
 function prepareLevel() {
 	randomizeTarget();
 
@@ -47,8 +50,8 @@ function prepareLevel() {
 }
 
 /**
-	@brief Randomizes the target color and sets the text on HUD
-*/
+ *	@brief Randomizes the target color and sets the text on HUD
+ */
 function randomizeTarget() {
 	var color = T_COLORS.random(game);
 
@@ -66,7 +69,8 @@ function randomizeTarget() {
 }
 
 /**
-	@brief A callback function. Called when any tile on tilemap's been clicked
+	@brief A callback function. Called when any tile on tilemap's clicked
+ 	@param color - A color to be compared to the gameData.targetColor
 */
 function tileClicked(color) {
 	if (gameData.targetColor == color) {
