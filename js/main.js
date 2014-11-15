@@ -11,7 +11,7 @@ var mapSize = new PIXI.Point(4, 7);
 
 var game = new Phaser.Game(DEFAULT_SIZE.x,
 	DEFAULT_SIZE.y,
-	Phaser.AUTO,
+	Phaser.WEBGL,
 	'game', {
 		create: create,
 		update: update
